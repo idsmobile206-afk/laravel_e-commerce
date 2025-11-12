@@ -2,23 +2,22 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Category;
+use App\Models\Product;
 
 class ProductSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
+        // Example: create 5 categories each with 10 products
         Category::factory()
-    ->count(5) // 5 categories: Men, Women, Kids, Accessories, Shoes
-    ->create()
-    ->each(function ($category) {
-        Product::factory()
-            ->count(10) // 10 products per category
-            ->create(['category_id' => $category->id]);
-    });
+            ->count(5)
+            ->create()
+            ->each(function ($category) {
+                Product::factory()
+                    ->count(10)
+                    ->create(['category_id' => $category->id]);
+            });
     }
 }

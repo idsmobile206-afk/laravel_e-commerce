@@ -31,16 +31,17 @@
                         {{$p['id']}}
                     </th>
                     <td class="px-6 py-4">
-                        {{$p['nom']}}
+                        {{$p['name']}}
                     </td>
                     <td class="px-6 py-4">
-                        {{$p['prix']}}
+                        {{$p['price']}}
                     </td>
                     <td class="px-6 py-4">
                         {{$p['stock']}}
                     </td>
                     <td class="px-6 py-4">
-                        {{$p['image']}}
+                        <img src="{{$p['image']}}"  />
+                         
                     </td>
                 </tr>
             @endforeach
