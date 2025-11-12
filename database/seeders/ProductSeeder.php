@@ -12,6 +12,13 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Category::factory()
+    ->count(5) // 5 categories: Men, Women, Kids, Accessories, Shoes
+    ->create()
+    ->each(function ($category) {
+        Product::factory()
+            ->count(10) // 10 products per category
+            ->create(['category_id' => $category->id]);
+    });
     }
 }

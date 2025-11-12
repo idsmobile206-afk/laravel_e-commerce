@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('diliveries', function (Blueprint $table) {
             $table->id();
+            $table->string('name') ;
+            $table->string('email') ;
+            $table->string('role') ;
             $table->timestamps();
         });
     }
