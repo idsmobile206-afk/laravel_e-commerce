@@ -40,9 +40,6 @@ Route::get('/client/{name?}', function ($name = 'sara') {
 
 Route::get('/clients', [clientsController::class , 'index']);
 
-
-
-
 // =================== Resource controller ======================
 
 Route::resource( "products",ProductsController::class) ;
