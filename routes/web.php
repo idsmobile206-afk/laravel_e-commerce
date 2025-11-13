@@ -60,29 +60,29 @@ Route::resource( "clients",clientsController::class) ;
 //     Route::get('/settings', [AdminController::class, 'settings']);
 // });
 
-Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return 'Admin Dashboard';
-    })->name('admin.dashboard');
+// Route::prefix('admin')->group(function () {
+//     Route::get('/dashboard', function () {
+//         return 'Admin Dashboard';
+//     })->name('admin.dashboard');
 
-    Route::get('/users', function () {
-        return 'Manage Users';
-    })->name('admin.users');
-});
+//     Route::get('/users', function () {
+//         return 'Manage Users';
+//     })->name('admin.users');
+// });
 
-Route::get('/profile', function () {
-    return 'User Profile';
-})->middleware('auth');
+// Route::get('/profile', function () {
+//     return 'User Profile';
+// })->middleware('auth');
 
-Route::middleware(['auth', 'isAdmin'])->group(function () {
-    Route::get('/dashboard', function () {
-        return 'Admin Dashboard';
-    });
+// Route::middleware(['auth', 'isAdmin'])->group(function () {
+//     Route::get('/dashboard', function () {
+//         return 'Admin Dashboard';
+//     });
 
-    Route::get('/users', function () {
-        return 'Manage Users';
-    });
-});
+//     Route::get('/users', function () {
+//         return 'Manage Users';
+//     });
+// });
 // ====================== Fallback Routes ==========================
 
 Route::fallback(function () {
