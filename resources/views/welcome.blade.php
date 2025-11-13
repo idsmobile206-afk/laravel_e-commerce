@@ -9,5 +9,8 @@
 <body>
     @include('navbar.nav')
     @yield('content')
+
+   
+
 </body>
 </html>
