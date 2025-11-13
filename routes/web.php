@@ -34,9 +34,9 @@ Route::get('/client/{name?}', function ($name = 'sara') {
 //=================== Routes with controller =====================
 
 
-// Route::get('/clients', function () {
-//     return view('clients');
-// });
+Route::get('/clients', function () {
+    return view('clients');
+});
 
 Route::get('/clients', [clientsController::class , 'index']);
 
