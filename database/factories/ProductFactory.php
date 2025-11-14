@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Factories;
+use Illuminate\Support\Facades\Http;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Category;
@@ -16,16 +17,18 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
-         $clothes = [
-            'T-Shirt', 'Jeans', 'Hoodie', 'Jacket', 'Sweater', 
-            'Dress', 'Skirt', 'Shorts', 'Blouse', 'Coat'
-        ];
+        
+
+       $skip = rand(0, 90);
+
+        $response = Http::get("https://dummyjson.com/products?limit=1&skip={$skip}");
+        $data = $response->json()['products'][0];
 
         return [
-            'name' => $this->faker->randomElement($clothes),
-            'price' => $this->faker->randomFloat(2, 10, 200), 
-            'stock' => $this->faker->numberBetween(0, 50),
-            'image' => $this->faker->imageUrl(640, 480, 'fashion', true),
+            'name'        => $data['title'],
+            'price'       => $data['price'],
+            'stock'       => rand(5, 50),
+            'image'       => $data['thumbnail'],  // just one image
             'category_id' => Category::factory(),
         ];
     }

@@ -37,11 +37,11 @@ Route::apiResource('students', StudentController::class);
 //=================== Routes with controller =====================
 
 
-Route::get('/clients', function () {
-    return view('clients');
-});
+// Route::get('/clients', function () {
+//     return view('clients');
+// });
 
-Route::get('/clients', [clientsController::class , 'index']);
+// Route::get('/clients', [clientsController::class , 'index']);
 
 
 
@@ -90,7 +90,7 @@ Route::fallback(function () {
 });
 
 // ================ view routes 
-Route::view('/profile', 'user.profile', ['name' => 'Jouda']);
+// Route::view('/profile', 'user.profile', ['name' => 'Jouda']);
 
 //================= redirect routes 
-Route::redirect('/home', '/dashboard');
+// Route::redirect('/home', '/dashboard');
