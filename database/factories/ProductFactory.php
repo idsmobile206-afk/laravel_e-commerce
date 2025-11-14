@@ -1,35 +1,38 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Http;
-
-use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Product;
 use App\Models\Category;
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
- */
-class ProductFactory extends Factory
+
+class ProductSeeder extends Seeder
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    public function run(): void
     {
-        
+        $response = Http::get('https://api.escuelajs.co/api/v1/products');
 
-       $skip = rand(0, 90);
+        if (!$response->ok()) {
+            dd("API is not responding");
+        }
 
-        $response = Http::get("https://dummyjson.com/products?limit=1&skip={$skip}");
-        $data = $response->json()['products'][0];
+        $products = $response->json();
 
-        return [
-            'name'        => $data['title'],
-            'price'       => $data['price'],
-            'stock'       => rand(5, 50),
-            'image'       => $data['thumbnail'],  // just one image
-            'category_id' => Category::factory(),
-        ];
+        foreach ($products as $p) {
+
+            // Ensure category exists or create it
+            $category = Category::firstOrCreate(
+                ['name' => $p['category']['name']]
+            );
+
+            Product::create([
+                'name'        => $p['title'],
+                'price'       => $p['price'],
+                'stock'       => rand(10, 100),
+                'image'       => $p['images'][0] ,
+                'category_id' => $category->id,
+            ]);
+        }
     }
 }

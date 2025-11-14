@@ -9,6 +9,9 @@ use App\Http\Controllers\ProductsController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/store', function () {
+    return view('store.store');
+});
 
 
 Route::get('/greeting', function () {
