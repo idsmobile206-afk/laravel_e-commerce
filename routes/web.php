@@ -3,15 +3,14 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\clientsController;
 use App\Http\Controllers\ProductsController;
-
+use App\Http\Controllers\storeController;
+use App\Http\Controllers\StudentController;
 
 //================= BASIC ROUTES =================================
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/store', function () {
-    return view('store.store');
-});
+
 
 
 Route::get('/greeting', function () {
@@ -53,6 +52,7 @@ Route::apiResource('students', StudentController::class);
 
 Route::resource( "products",ProductsController::class) ;
 Route::resource( "clients",clientsController::class) ;
+Route::resource('/store', storeController::class);
 
 // Route::resource('students', StudentController::class)->only(['index', 'show']);
 

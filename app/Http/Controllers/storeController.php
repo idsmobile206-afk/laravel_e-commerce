@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\fs;
-use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
-class ProductsController extends Controller
+class storeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +13,7 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::all() ;
-        return view('products.productsListe' , compact('products')) ;
-        
+        return view('store.index' , compact('products')) ;
     }
 
     /**
@@ -23,7 +21,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        
+        //
     }
 
     /**
@@ -37,7 +35,7 @@ class ProductsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(fs $fs)
+    public function show(string $id)
     {
         //
     }
@@ -45,7 +43,7 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(fs $fs)
+    public function edit(string $id)
     {
         //
     }
@@ -53,7 +51,7 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, fs $fs)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -61,7 +59,7 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(fs $fs)
+    public function destroy(string $id)
     {
         //
     }
