@@ -10,31 +10,54 @@
 <body class="bg-gray-300">
     @include('store.navbar')
     
-    <div class="flex justify-between px-20  mt-10 py-4">
+   <div class="flex justify-between items-center px-20 mt-10 py-4">
        
-       <div class='grid grid-cols-7 gap-5'>
-         <button class=" px-2  bg-white rounded-3xl text-left font-bold hover:bg-gray-100 transition">
-            <p class="text-gray-500 font-normal text-sm">Category</p>
-            All categories <i class="fa-solid fa-caret-down"></i>
+    <!-- Left Filters -->
+    <div class="grid grid-cols-4 gap-4">
+        <button class="px-4 py-2 bg-white rounded-3xl text-left font-semibold hover:bg-gray-100 transition shadow-sm border">
+            <p class="text-gray-500 font-normal text-sm leading-tight">Category</p>
+            <span class="flex items-center gap-1">
+                All categories 
+                <i class="fa-solid fa-caret-down"></i>
+            </span>
         </button>
-        <button class=" px-2  bg-white rounded-3xl text-left font-bold hover:bg-gray-100 transition">
-            <p class="text-gray-500 font-normal text-sm">colors</p>
-            All Colors  <i class="fa-solid fa-caret-down"></i>
+
+        <button class="px-4 py-2 bg-white rounded-3xl text-left font-semibold hover:bg-gray-100 transition shadow-sm border">
+            <p class="text-gray-500 font-normal text-sm leading-tight">Colors</p>
+            <span class="flex items-center gap-1">
+                All Colors  
+                <i class="fa-solid fa-caret-down"></i>
+            </span>
         </button>
-        <button class=" px-2  bg-white rounded-3xl text-left font-bold hover:bg-gray-100 transition">
-            <p class="text-gray-500 font-normal text-sm">features</p>
-            All features <i class="fa-solid fa-caret-down"></i>
+
+        <button class="px-4 py-2 bg-white rounded-3xl text-left font-semibold hover:bg-gray-100 transition shadow-sm border">
+            <p class="text-gray-500 font-normal text-sm leading-tight">Features</p>
+            <span class="flex items-center gap-1">
+                All features 
+                <i class="fa-solid fa-caret-down"></i>
+            </span>
         </button>
-        <button class=" px-2  bg-white rounded-3xl text-left font-bold hover:bg-gray-100 transition">
-            <p class="text-gray-500 font-normal text-sm">price</p>
-            from o$ to 1000$ <i class="fa-solid fa-caret-down"></i>
-        </button>
-       </div>
-        <button class="px-4 bg-white rounded-3xl text-left font-bold hover:bg-gray-100 transition">
-            <p class="text-gray-500 font-normal text-sm">sort</p>
-            New in <i class="fa-solid fa-caret-down"></i>
+
+        <button class="px-4 py-2 bg-white rounded-3xl text-left font-semibold hover:bg-gray-100 transition shadow-sm border">
+            <p class="text-gray-500 font-normal text-sm leading-tight">Price</p>
+            <span class="flex items-center gap-1">
+                From 0$ to 1000$
+                <i class="fa-solid fa-caret-down"></i>
+            </span>
         </button>
     </div>
+
+    <!-- Right Sort Button -->
+    <button class="px-5 py-2 bg-white rounded-3xl text-left font-semibold hover:bg-gray-100 transition shadow-sm border">
+        <p class="text-gray-500 font-normal text-sm leading-tight">Sort</p>
+        <span class="flex items-center gap-1">
+            New in 
+            <i class="fa-solid fa-caret-down"></i>
+        </span>
+    </button>
+
+</div>
+
 
     <!-- Products Grid -->
     <div class="grid grid-cols-4 gap-6 px-20 py-10">
