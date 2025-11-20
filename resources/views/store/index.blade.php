@@ -47,13 +47,13 @@
 
         /* CTA button */
         .btn-orange {
-            /* background: var(--main-orange); */
-            color: var(--main-orange);
+            background: var(--main-orange);
+            color: white;
         }
 
         .btn-orange:hover {
             background: #e67a00;
-            color : white ;
+         
         }
 
         /* Optional: title hover underline */
