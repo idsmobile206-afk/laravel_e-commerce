@@ -23,7 +23,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        
+        return view('products.create') ;
     }
 
     /**
@@ -31,15 +31,21 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required' , 
+            'price' => 'required'
+        ]) ;
+        Product::create($validated) ;
+        return redirect()->route('product.index') ;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(fs $fs)
+    public function show($id)
     {
-        //
+        $product = Product::findOrfail($id) ;
+        return view('product.show' , compact('product')) ;
     }
 
     /**
@@ -61,8 +67,9 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(fs $fs)
+    public function destroy($id)
     {
-        //
+        Product::destroy($id) ;
+        return redirect()->route('product.index') ;
     }
 }
