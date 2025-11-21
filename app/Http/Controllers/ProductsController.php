@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\fs;
+
 use Illuminate\Http\Request;
 use App\Models\Product;
 
@@ -14,7 +14,7 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::all() ;
-        return view('products.productsListe' , compact('products')) ;
+        return view('products.index' , compact('products')) ;
         
     }
 
@@ -36,7 +36,7 @@ class ProductsController extends Controller
             'price' => 'required'
         ]) ;
         Product::create($validated) ;
-        return redirect()->route('product.index') ;
+        return redirect()->route('products.index') ;
     }
 
     /**
@@ -45,23 +45,31 @@ class ProductsController extends Controller
     public function show($id)
     {
         $product = Product::findOrfail($id) ;
-        return view('product.show' , compact('product')) ;
+        return view('products.show' , compact('product')) ;
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(fs $fs)
+    public function edit( $id)
     {
-        //
+        $Product = Product::findOrfail($id) ;
+        return view('products.edit' , compact('product')) ;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, fs $fs)
+    public function update(Request $request,  $id)
     {
-        //
+        $product = Product::findORfail($id) ;
+        $validated = $request->validate([
+            'name' => 'required' ,
+            'price' => 'required'
+        ]) ;
+
+        $product->update($validated) ;
+        return redirect()->route('products.index') ;
     }
 
     /**
@@ -70,6 +78,6 @@ class ProductsController extends Controller
     public function destroy($id)
     {
         Product::destroy($id) ;
-        return redirect()->route('product.index') ;
+        return redirect()->route('products.index') ;
     }
 }

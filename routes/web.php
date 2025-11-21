@@ -1,10 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\clientsController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\storeController;
-use App\Http\Controllers\StudentController;
+
 
 //================= BASIC ROUTES =================================
 Route::get('/', function () {
@@ -13,50 +12,14 @@ Route::get('/', function () {
 
 
 
-Route::get('/greeting', function () {
-    return "hello laravel";
-});
-
-//=================== ROUTES WITH PARAMETERS ====================
-
-Route::get('/stagiaire/{name}', function ($name) {
-    return "hello $name" ;
-});
-
-
-Route::get('/stagiaire/{name}/{phone}', function ($name , $phone) {
-    return "hello $name , phone : $phone" ;
-});
-
-
-Route::get('/client/{name?}', function ($name = 'sara') {
-    return "client name :  $name" ;
-});
-
-
-Route::apiResource('students', StudentController::class);
-
-//=================== Routes with controller =====================
-
-
-// Route::get('/clients', function () {
-//     return view('clients');
-// });
-
-// Route::get('/clients', [clientsController::class , 'index']);
-
-
-
 
 // =================== Resource controller ======================
 
 Route::resource( "products",ProductsController::class) ;
-Route::resource( "clients",clientsController::class) ;
+
 Route::resource('/store', storeController::class);
 
-// Route::resource('students', StudentController::class)->only(['index', 'show']);
 
-// Route::resource('students', StudentController::class)->except(['destroy']);
 
 // Route::prefix('admin')->group(function () {
 //     Route::get('/users', [AdminController::class, 'index']);
@@ -91,9 +54,3 @@ Route::resource('/store', storeController::class);
 Route::fallback(function () {
     return view('errors.404') ;
 });
-
-// ================ view routes 
-// Route::view('/profile', 'user.profile', ['name' => 'Jouda']);
-
-//================= redirect routes 
-// Route::redirect('/home', '/dashboard');
