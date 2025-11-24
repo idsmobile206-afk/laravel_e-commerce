@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('sizes', function (Blueprint $table) {
             $table->id();
             $table->string('name');  // S, M, L, XL OR 38, 40...
+            $table->enum('type', ['letter', 'numeric', 'kids']); // new column to classify sizes
             $table->timestamps();
         });
     }
