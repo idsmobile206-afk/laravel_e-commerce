@@ -2,28 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ProductColor extends Model
+class ProductColor extends Pivot
 {
-    //
-     public $incrementing = true;
-
     protected $table = 'product_colors';
-    protected $fillable = ['product_id', 'color_id'];
 
-    public function product()
+    public function images()
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(ProductColorImage::class, 'product_color_id');
     }
 
     public function color()
     {
         return $this->belongsTo(Color::class);
-    }
-    
-    public function images()
-    {
-        return $this->hasMany(ProductColorImage::class, 'product_color_id');
     }
 }

@@ -95,52 +95,73 @@
     </div>
 
     <div class="grid grid-cols-4 gap-6 px-20 py-10">
-        @foreach ($products as $p)
-            <div class="product-card block rounded-lg overflow-hidden relative">
+    @foreach ($products as $p)
+        <div class="product-card block rounded-lg overflow-hidden relative">
 
-                <!-- Icons -->
-                <div class="absolute top-3 right-3 flex space-x-3 z-10">
-                    <!-- Wishlist -->
-                    <button class=" p-2  transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                            class="w-5 h-5 text-red-500">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5
+            <!-- Icons -->
+            <div class="absolute top-3 right-3 flex space-x-3 z-10">
+                <!-- Wishlist -->
+                <button class="p-2 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        class="w-5 h-5 text-red-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5
                               4.5 0 116.364 6.364L12 21.364l-7.682-7.682a4.5
                               4.5 0 010-6.364z" />
-                        </svg>
-                    </button>
+                    </svg>
+                </button>
 
-                    <!-- Add to Cart -->
-                    <button class="  transition">
-                        <i class="fa-solid text-[#ff6a00] hover:text-[#ff6a01] fa-cart-arrow-down"></i>
-                    </button>
-                </div>
-
-                <!-- Image -->
-                <div class="w-full h-80 flex justify-center">
-                    <img class="w-full h-80 object-cover" src="{{ $p->image }}" alt="{{ $p->name }}">
-                </div>
-                <div class="bg-white p-1">
-                    @foreach ($p->sizes as $size) 
-                         {{ $size->name }}
-                    @endforeach
-                </div>
-
-                <!-- Content -->
-                <div class="p-4">
-                    <a href="#">
-                        <h5 class="mt-2 mb-2 text-xl font-semibold tracking-tight">{{ $p->brand->name }}</h5>
-                        <h5 class="mt-2 mb-2 text-xl font-semibold tracking-tight">{{ $p->name }}</h5>
-                    </a>
-                    <p class="mb-2 text-gray-700 text-sm">
-                        {{ \Illuminate\Support\Str::words($p->description, 10, ' ...') }}
-                    </p>
-                    <p class="mb-4 font-bold text-gray-900">{{ $p->price }} $</p>
-                </div>
-
+                <!-- Add to Cart -->
+                <button class="transition">
+                    <i class="fa-solid text-[#ff6a00] hover:text-[#ff6a01] fa-cart-arrow-down"></i>
+                </button>
             </div>
-        @endforeach
-    </div>
+
+            <!-- Image -->
+            <div class="w-full h-80 flex justify-center">
+                @if($p->productColors->count())
+                    @php
+                        $mainImage = $p->productColors->first()->images->firstWhere('is_main', true);
+                        if (!$mainImage) {
+                            $mainImage = $p->productColors->first()->images->first();
+                        }
+                    @endphp
+                    <img class="w-full h-80 object-cover" src="{{ $mainImage->image_path ?? 'placeholder.jpg' }}" alt="{{ $p->name }}">
+                @else
+                    <img class="w-full h-80 object-cover" src="placeholder.jpg" alt="{{ $p->name }}">
+                @endif
+            </div>
+
+            <!-- Sizes -->
+            <div class="bg-white p-1 flex space-x-1">
+                @foreach ($p->sizes as $size)
+                    <span class="px-2 py-1 border rounded">{{ $size->name }}</span>
+                @endforeach
+            </div>
+
+            <!-- Colors -->
+            <div class="flex space-x-1 mt-1">
+                @foreach ($p->productColors as $pc)
+                    <span style="background-color: {{ $pc->color->hex_code }}; width:20px; height:20px; display:inline-block; border-radius:50%;"></span>
+                @endforeach
+            </div>
+
+            <!-- Content -->
+            <div class="p-4">
+                <a href="#">
+                    <h5 class="mt-2 mb-2 text-xl font-semibold tracking-tight">{{ $p->brand->name }}</h5>
+                    <h5 class="mt-2 mb-2 text-xl font-semibold tracking-tight">{{ $p->name }}</h5>
+                </a>
+                <p class="mb-2 text-gray-700 text-sm">
+                    {{ \Illuminate\Support\Str::words($p->description, 10, ' ...') }}
+                </p>
+                <p class="mb-4 font-bold text-gray-900">{{ $p->price }} $</p>
+            </div>
+
+        </div>
+    @endforeach
+</div>
+
 
     </div>
 
