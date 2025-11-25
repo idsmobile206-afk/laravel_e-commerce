@@ -34,6 +34,9 @@ class DatabaseSeeder extends Seeder
             ProdocutColorSeeder::class,
             ProdocutColorImageSeeder::class,
             ProductSeeder::class,
+            ProductSizeSeeder::class,
+            ProductColorsSeeder::class,
+            ProductColorImagesSeeder::class,
         ]);
     }
 }

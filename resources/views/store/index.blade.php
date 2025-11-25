@@ -35,30 +35,8 @@
 
         /* Product cards */
         .product-card {
-            
+
             transition: 0.3s ease;
-        }
-
-        .product-card:hover {
-            border-color: var(--main-orange);
-            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.25);
-            transform: translateY(-3px);
-        }
-
-        /* CTA button */
-        .btn-orange {
-            background: var(--main-orange);
-            color: white;
-        }
-
-        .btn-orange:hover {
-            background: #e67a00;
-         
-        }
-
-        /* Optional: title hover underline */
-        .product-card h5:hover {
-            color: var(--main-orange);
         }
     </style>
 
@@ -70,7 +48,7 @@
 
     <div class="flex justify-between items-center px-20 mt-10 py-4">
 
-        <!-- Left Filters -->
+        {{-- <!-- Left Filters -->
         <div class="grid grid-cols-4 gap-4">
             <button class="filter-btn px-4 py-2 text-left font-semibold">
                 <p class="text-gray-500 text-sm leading-tight">Category</p>
@@ -112,34 +90,58 @@
                 New in
                 <i class="fa-solid fa-caret-down"></i>
             </span>
-        </button>
+        </button> --}}
 
     </div>
 
-    <!-- Products Grid -->
     <div class="grid grid-cols-4 gap-6 px-20 py-10">
         @foreach ($products as $p)
-            <div class="product-card block rounded-lg overflow-hidden ">
-                <div class="w-full h-80  flex justify-center">
+            <div class="product-card block rounded-lg overflow-hidden relative">
+
+                <!-- Icons -->
+                <div class="absolute top-3 right-3 flex space-x-3 z-10">
+                    <!-- Wishlist -->
+                    <button class=" p-2  transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            class="w-5 h-5 text-red-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5
+                              4.5 0 116.364 6.364L12 21.364l-7.682-7.682a4.5
+                              4.5 0 010-6.364z" />
+                        </svg>
+                    </button>
+
+                    <!-- Add to Cart -->
+                    <button class="  transition">
+                        <i class="fa-solid text-[#ff6a00] hover:text-[#ff6a01] fa-cart-arrow-down"></i>
+                    </button>
+                </div>
+
+                <!-- Image -->
+                <div class="w-full h-80 flex justify-center">
                     <img class="w-full h-80 object-cover" src="{{ $p->image }}" alt="{{ $p->name }}">
                 </div>
+                <div class="bg-white p-1">
+                    @foreach ($p->sizes as $size) 
+                         {{ $size->name }}
+                    @endforeach
+                </div>
+
+                <!-- Content -->
                 <div class="p-4">
                     <a href="#">
+                        <h5 class="mt-2 mb-2 text-xl font-semibold tracking-tight">{{ $p->brand->name }}</h5>
                         <h5 class="mt-2 mb-2 text-xl font-semibold tracking-tight">{{ $p->name }}</h5>
                     </a>
-                    <p class="mb-2 text-gray-700 text-sm">Lorem ipsum dolor sit amet.</p>
+                    <p class="mb-2 text-gray-700 text-sm">
+                        {{ \Illuminate\Support\Str::words($p->description, 10, ' ...') }}
+                    </p>
                     <p class="mb-4 font-bold text-gray-900">{{ $p->price }} $</p>
-                    <a href="#"
-                        class="btn-orange inline-flex items-center text-sm font-medium rounded-md px-4 py-2 transition">
-                        More details
-                        <svg class="w-4 h-4 ms-1.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 12H5m14 0-4 4m4-4-4-4" />
-                        </svg>
-                    </a>
                 </div>
+
             </div>
         @endforeach
+    </div>
+
     </div>
 
 </body>

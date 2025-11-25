@@ -10,6 +10,17 @@ class ProductColor extends Model
      public $incrementing = true;
 
     protected $table = 'product_colors';
+    protected $fillable = ['product_id', 'color_id'];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function color()
+    {
+        return $this->belongsTo(Color::class);
+    }
     
     public function images()
     {

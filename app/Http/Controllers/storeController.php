@@ -12,7 +12,7 @@ class storeController extends Controller
      */
     public function index()
     {
-        $products = Product::all() ;
+        $products = Product::with('sizes')->get(); 
         return view('store.index' , compact('products')) ;
     }
 
