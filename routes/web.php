@@ -1,7 +1,9 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\StoreAPIController;
 use App\Http\Controllers\storeController;
 
 
@@ -54,3 +56,7 @@ Route::resource('/store', storeController::class);
 Route::fallback(function () {
     return view('errors.404') ;
 });
+
+Route::prefix('api')->group(function () {
+    Route::get('data', [StoreAPIController::class, 'index']);
+}) ;

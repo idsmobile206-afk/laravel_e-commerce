@@ -133,14 +133,14 @@
             </div>
 
             <!-- Sizes -->
-            <div class="bg-white p-1 flex space-x-1">
+            <div class=" p-1 flex space-x-1">
                 @foreach ($p->sizes as $size)
-                    <span class="px-2 py-1 border rounded">{{ $size->name }}</span>
+                    <button class="px-2 py-1 border rounded">{{ $size->name }}</button>
                 @endforeach
             </div>
 
             <!-- Colors -->
-            <div class="flex space-x-1 mt-1">
+            <div class="flex pl-4 space-x-1 mt-1">
                 @foreach ($p->productColors as $pc)
                     <span style="background-color: {{ $pc->color->hex_code }}; width:20px; height:20px; display:inline-block; border-radius:50%;"></span>
                 @endforeach

@@ -23,8 +23,8 @@ class ProductSeeder extends Seeder
         foreach ($categories as $category) {
             foreach ($category->productTypes as $type) {
 
-                // Create 5 products for each product type
-                for ($i = 0; $i < 5; $i++) {
+                // Create 2 products for each product type
+                for ($i = 0; $i < 2; $i++) {
 
                     Product::create([
                         'name' => $type->name . ' ' . Str::random(5),

@@ -16,8 +16,7 @@ class storeController extends Controller
             'sizes',
             'productColors.color',
             'productColors.images'
-        ])->get();
-          
+        ])->limit(10)->get();
         return view('store.index', compact('products'));
     }
 

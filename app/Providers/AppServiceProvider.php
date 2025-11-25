@@ -2,23 +2,23 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * The path to the "home" route for your application.
+     *
+     * @var string
      */
-    public function register(): void
-    {
-        //
-    }
+    public const HOME = '/home';
 
     /**
-     * Bootstrap any application services.
+     * Define your route model bindings, pattern filters, etc.
      */
     public function boot(): void
     {
-        //
+        
     }
 }
