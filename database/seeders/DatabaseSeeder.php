@@ -30,7 +30,10 @@ class DatabaseSeeder extends Seeder
             gendersSeeder::class,
             ProductTypesSeeder::class,
             SizesTableSeeder::class,
-        
+            ColorsSeeder::class,
+            ProdocutColorSeeder::class,
+            ProdocutColorImageSeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }
