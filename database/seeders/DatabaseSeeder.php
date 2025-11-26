@@ -31,11 +31,10 @@ class DatabaseSeeder extends Seeder
             ProductTypesSeeder::class,
             SizesTableSeeder::class,
             ColorsSeeder::class,
-            ProductColorsSeeder::class,
             ProductSeeder::class,
             ProductSizeSeeder::class,
-            ProductColorsSeeder::class,
-            ProductColorImagesSeeder::class,
+            // ProductColorsSeeder::class,
+            // ProductColorImagesSeeder::class,
         ]);
     }
 }
