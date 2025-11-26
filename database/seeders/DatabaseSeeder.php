@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             ProductTypesSeeder::class,
             SizesTableSeeder::class,
             ColorsSeeder::class,
-            ProductSeeder::class,
+            // ProductSeeder::class,
             ProductSizeSeeder::class,
             // ProductColorsSeeder::class,
             // ProductColorImagesSeeder::class,

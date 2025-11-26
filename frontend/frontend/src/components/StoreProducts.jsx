@@ -3,7 +3,7 @@ import axios from "axios";
 import { HeartIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 
-export const Store = () => {
+export const StoreProducts = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
 

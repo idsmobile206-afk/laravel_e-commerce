@@ -2,7 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { Store } from './components/Store'
+import { StoreProducts } from './components/StoreProducts'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 function App() {
@@ -12,10 +12,9 @@ function App() {
    <>
    <BrowserRouter>
     <Routes >
-      <Route path='/' element={<Store />} />
+      <Route path='/' element={<StoreProducts />} />
     </Routes>
    </BrowserRouter>
-  
    
    </>
   )
