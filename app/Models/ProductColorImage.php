@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductColorImage extends Model
 {
-    //
-     protected $fillable = ['product_color_id', 'image_path', 'is_main'];
-     public function productColor()
+    protected $fillable = [
+        'product_color_id',
+        'image_path',
+        'is_main',
+    ];
+
+    public function productColor()
     {
         return $this->belongsTo(ProductColor::class);
     }

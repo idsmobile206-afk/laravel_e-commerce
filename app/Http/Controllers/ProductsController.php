@@ -58,7 +58,7 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate input
+        // Validation
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -72,44 +72,46 @@ class ProductsController extends Controller
             'sizes.*' => 'exists:sizes,id',
             'colors' => 'nullable|array',
             'colors.*.color_id' => 'required|exists:colors,id',
-            'colors.*.images.*' => 'image|mimes:jpg,jpeg,png,gif,webp|max:5120', // 5MB
+            'colors.*.images.*' => 'image|mimes:jpg,jpeg,png,gif,webp|max:5120',
         ]);
 
-        // Create product
-        $product = Product::create($validated);
+        try {
+            // Create product
+            $product = Product::create($validated);
 
-        // Attach sizes
-        if (!empty($request->sizes)) {
-            $product->sizes()->sync($request->sizes);
-        }
+            // Attach sizes
+            if (!empty($request->sizes)) {
+                $product->sizes()->sync($request->sizes);
+            }
 
-        // Handle colors and images
-        if (!empty($request->colors)) {
-            foreach ($request->colors as $colorData) {
-                $colorId = $colorData['color_id'];
+            // Handle colors & images
+            if (!empty($request->colors)) {
+                foreach ($request->colors as $colorData) {
+                    $productColor = ProductColor::create([
+                        'product_id' => $product->id,
+                        'color_id' => $colorData['color_id'],
+                    ]);
 
-                // Create productColor pivot record
-                $productColor = ProductColor::create([
-                    'product_id' => $product->id,
-                    'color_id' => $colorId,
-                ]);
-
-                // Upload images for this color
-                if (!empty($colorData['images'])) {
-                    foreach ($colorData['images'] as $index => $img) {
-                        $path = $img->store("products/{$product->id}/colors/{$colorId}", 'public');
-
-                        $productColor->images()->create([
-                            'image_path' => $path,
-                            'is_main' => $index === 0, // first image is main
-                        ]);
+                    if (!empty($colorData['images'])) {
+                        foreach ($colorData['images'] as $index => $img) {
+                            $path = $img->store("products/{$product->id}/colors/{$colorData['color_id']}", 'public');
+                            $productColor->images()->create([
+                                'image_path' => $path,
+                                'is_main' => $index === 0,
+                            ]);
+                        }
                     }
                 }
             }
-        }
 
-        return redirect()->route('products.index')->with('success', 'Product added successfully!');
+            // Success alert
+            return redirect()->back()->with('status', 'success')->with('message', 'Product added successfully!');
+        } catch (\Exception $e) {
+            // Error alert
+            return redirect()->back()->with('status', 'error')->with('message', 'Failed to add product: ' . $e->getMessage());
+        }
     }
+
 
 
 
@@ -234,11 +236,11 @@ class ProductsController extends Controller
         $product->productColors()->delete();
 
         // Optionally delete related images from storage if needed
-        // foreach ($product->productColors as $pc) {
-        //     foreach ($pc->images as $img) {
-        //         Storage::delete('public/' . $img->image_path);
-        //     }
-        // }
+        foreach ($product->productColors as $pc) {
+            foreach ($pc->images as $img) {
+                Storage::delete('public/' . $img->image_path);
+            }
+        }
 
         // Delete the product itself
         $product->delete();

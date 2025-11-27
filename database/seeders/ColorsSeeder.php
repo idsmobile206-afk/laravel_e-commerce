@@ -49,6 +49,7 @@ class ColorsSeeder extends Seeder
             ['name' => 'Purple',       'hex_code' => '#800080'],
             ['name' => 'Lavender',     'hex_code' => '#E6E6FA'],
             ['name' => 'Violet',       'hex_code' => '#8A2BE2'],
+            ['name' => 'Thistle',       'hex_code' => '#D8BFD8'],
         ];
 
         foreach ($colors as $color) {

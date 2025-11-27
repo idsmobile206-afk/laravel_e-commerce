@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class ProductColor extends Pivot
+class ProductColor extends Model
 {
     protected $table = 'product_colors';
-    protected $fillable = ['product_id', 'color_id'];
 
+    protected $fillable = [
+        'product_id',
+        'color_id'
+    ];
 
     public function images()
     {
@@ -18,5 +21,10 @@ class ProductColor extends Pivot
     public function color()
     {
         return $this->belongsTo(Color::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
     }
 }
