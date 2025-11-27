@@ -10,6 +10,7 @@ use App\Http\Controllers\storeController;
 //================= LOGIN ROUTES =================================
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ColorsController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -26,7 +27,7 @@ Route::resource( "products",ProductsController::class) ;
 
 Route::resource('/store', storeController::class);
 
-
+Route::get('/colors' ,[ ColorsController::class , 'index']) ;
 
 // Route::prefix('admin')->group(function () {
 //     Route::get('/users', [AdminController::class, 'index']);

@@ -11,7 +11,10 @@ class StoreAPIController extends Controller
     {
         $products = Product::with([
             'sizes',
-            
+            'brand' ,
+            'category',
+            'gender' ,
+            'type' ,
             'productColors.color',
             'productColors.images'
         ])->limit(10)->get();
