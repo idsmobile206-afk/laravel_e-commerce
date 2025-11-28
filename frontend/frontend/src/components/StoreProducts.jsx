@@ -73,9 +73,9 @@ export const StoreProducts = () => {
             </div>
 
             {/* Image */}
-            <div className="w-full h-80 flex justify-center">
+            <div className="w-full h-100 flex justify-center">
               <img
-                className="w-full h-80 object-cover"
+                className="w-full h-100 object-cover"
                 src={`http://localhost:8000/storage/${p.selectedImage}`}
                 alt={p.name}
               />
@@ -94,15 +94,29 @@ export const StoreProducts = () => {
               ))}
             </div>
 
+            
+
+            {/* Content */}
+            <div className="pl-1">
+              <h5 className=" text-xl font-semibold tracking-tight">
+                {p.brand?.name}
+              </h5>
+              <h5 className=" text-xs  tracking-tight">
+                {p.name}
+              </h5>
+              {/* <p className="mb-2 text-gray-700 text-sm">
+                {p.description?.split(" ").slice(0, 10).join(" ")} ...
+              </p> */}
+              <p className=" text-xs  text-gray-900">{p.price} $</p>
             {/* Colors */}
-            <div className="flex pl-4 space-x-1 mt-1">
+            <div className="flex  space-x-1">
               {p.product_colors?.map((pc) => (
                 <span
                   key={pc.id}
                   style={{
                     backgroundColor: pc.color.hex_code || "#000",
-                    width: "20px",
-                    height: "20px",
+                    width: "15px",
+                    height: "15px",
                     display: "inline-block",
                     borderRadius: "50%",
                     cursor: "pointer",
@@ -115,20 +129,8 @@ export const StoreProducts = () => {
                 ></span>
               ))}
             </div>
-
-            {/* Content */}
-            <div className="p-4">
-              <h5 className="mt-2 mb-2 text-xl font-semibold tracking-tight">
-                {p.brand?.name}
-              </h5>
-              <h5 className="mt-2 mb-2 text-xl font-semibold tracking-tight">
-                {p.name}
-              </h5>
-              {/* <p className="mb-2 text-gray-700 text-sm">
-                {p.description?.split(" ").slice(0, 10).join(" ")} ...
-              </p> */}
-              <p className="mb-4 font-bold text-gray-900">{p.price} $</p>
             </div>
+
           </div>
         ))}
       </div>
