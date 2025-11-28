@@ -17,7 +17,7 @@ class StoreAPIController extends Controller
             'type' ,
             'productColors.color',
             'productColors.images'
-        ])->limit(10)->get();
+        ])->get();
         return response()->json($products) ;
     }
 }

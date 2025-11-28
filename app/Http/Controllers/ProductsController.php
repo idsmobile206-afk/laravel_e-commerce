@@ -29,9 +29,7 @@ class ProductsController extends Controller
             'type',
             'productColors.color',
             'productColors.images'
-        ])
-            ->limit(10)
-            ->get();
+        ])->get();
 
         return view('products.index', compact('products'));
     }
@@ -58,8 +56,7 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        // Validation
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
@@ -68,52 +65,85 @@ class ProductsController extends Controller
             'category_id' => 'nullable|exists:categories,id',
             'gender_id' => 'nullable|exists:genders,id',
             'product_type_id' => 'nullable|exists:product_types,id',
+
             'sizes' => 'nullable|array',
             'sizes.*' => 'exists:sizes,id',
+
             'colors' => 'nullable|array',
             'colors.*.color_id' => 'required|exists:colors,id',
-            'colors.*.images.*' => 'image|mimes:jpg,jpeg,png,gif,webp|max:5120',
         ]);
 
         try {
-            // Create product
-            $product = Product::create($validated);
+            $data = $request->only([
+                'name',
+                'description',
+                'price',
+                'stock',
+                'brand_id',
+                'category_id',
+                'gender_id',
+                'product_type_id'
+            ]);
 
-            // Attach sizes
-            if (!empty($request->sizes)) {
-                $product->sizes()->sync($request->sizes);
+            $product = Product::create($data);
+
+            if ($request->filled('sizes')) {
+                $product->sizes()->sync($request->input('sizes'));
             }
 
-            // Handle colors & images
-            if (!empty($request->colors)) {
-                foreach ($request->colors as $colorData) {
-                    $productColor = ProductColor::create([
-                        'product_id' => $product->id,
-                        'color_id' => $colorData['color_id'],
-                    ]);
+            $colors = $request->input('colors', []);
 
-                    if (!empty($colorData['images'])) {
-                        foreach ($colorData['images'] as $index => $img) {
-                            $path = $img->store("products/{$product->id}/colors/{$colorData['color_id']}", 'public');
-                            $productColor->images()->create([
-                                'image_path' => $path,
-                                'is_main' => $index === 0,
-                            ]);
-                        }
-                    }
-                }
+            foreach ($colors as $colorData) {
+                ProductColor::create([
+                    'product_id' => $product->id,
+                    'color_id'   => $colorData['color_id'],
+                ]);
             }
 
-            // Success alert
-            return redirect()->back()->with('status', 'success')->with('message', 'Product added successfully!');
+            // Redirect to image upload page
+            return redirect()->route('products.images', $product->id);
         } catch (\Exception $e) {
-            // Error alert
-            return redirect()->back()->with('status', 'error')->with('message', 'Failed to add product: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('status', 'error')
+                ->with('message', 'Failed to add product: ' . $e->getMessage());
         }
     }
 
+    public function imagesView($id)
+    {
+        $product = Product::with('productColors.color')->findOrFail($id);
+
+        return view('products.images', compact('product'));
+    }
 
 
+    public function imagesStore(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        foreach ($request->colors as $colorData) {
+
+            $productColor = ProductColor::findOrFail($colorData['product_color_id']);
+
+            if (!empty($colorData['images'])) {
+                foreach ($colorData['images'] as $index => $file) {
+
+                    $path = $file->store(
+                        "products/$id/colors/{$productColor->color_id}",
+                        'public'
+                    );
+
+                    $productColor->images()->create([
+                        'image_path' => $path,
+                        'is_main' => $index === 0,
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->route('products.index')
+            ->with('message', 'Images uploaded successfully!');
+    }
 
 
 
@@ -170,66 +200,66 @@ class ProductsController extends Controller
      * Update product + (optional) replace images.
      */
     public function update(Request $request, $id)
-{
-    $product = Product::findOrFail($id);
+    {
+        $product = Product::findOrFail($id);
 
-    // Validation
-    $validated = $request->validate([
-        'name'        => 'required|string',
-        'price'       => 'required|numeric',
-        'stock'       => 'required|numeric',
-        'brand_id'    => 'required|exists:brands,id',
-        'category_id' => 'required|exists:categories,id',
-        'gender_id'   => 'required|exists:genders,id',
-        'type_id'     => 'required|exists:product_types,id', // fix table name
+        // Validation
+        $validated = $request->validate([
+            'name'        => 'required|string',
+            'price'       => 'required|numeric',
+            'stock'       => 'required|numeric',
+            'brand_id'    => 'required|exists:brands,id',
+            'category_id' => 'required|exists:categories,id',
+            'gender_id'   => 'required|exists:genders,id',
+            'type_id'     => 'required|exists:product_types,id', // fix table name
 
-        'sizes'           => 'array',
-        'sizes.*'         => 'exists:sizes,id',
+            'sizes'           => 'array',
+            'sizes.*'         => 'exists:sizes,id',
 
-        'color_images'       => 'array',
-        'color_images.*'     => 'array',
-        'color_images.*.*'   => 'image|max:4096',
-    ]);
+            'color_images'       => 'array',
+            'color_images.*'     => 'array',
+            'color_images.*.*'   => 'image|max:4096',
+        ]);
 
-    // Update main product fields
-    $product->update([
-        'name'        => $request->name,
-        'price'       => $request->price,
-        'stock'       => $request->stock,
-        'brand_id'    => $request->brand_id,
-        'category_id' => $request->category_id,
-        'gender_id'   => $request->gender_id,
-        'type_id'     => $request->type_id,
-    ]);
+        // Update main product fields
+        $product->update([
+            'name'        => $request->name,
+            'price'       => $request->price,
+            'stock'       => $request->stock,
+            'brand_id'    => $request->brand_id,
+            'category_id' => $request->category_id,
+            'gender_id'   => $request->gender_id,
+            'type_id'     => $request->type_id,
+        ]);
 
-    // Sync sizes
-    if ($request->sizes) {
-        $product->sizes()->sync($request->sizes);
-    }
+        // Sync sizes
+        if ($request->sizes) {
+            $product->sizes()->sync($request->sizes);
+        }
 
-    // Handle color images
-    if ($request->hasFile('color_images')) {
-        foreach ($request->file('color_images') as $colorId => $images) {
+        // Handle color images
+        if ($request->hasFile('color_images')) {
+            foreach ($request->file('color_images') as $colorId => $images) {
 
-            // Get or create the productColor pivot
-            $productColor = $product->productColors()->firstOrCreate([
-                'color_id' => $colorId
-            ]);
-
-            foreach ($images as $image) {
-                // Store the file in the 'public' disk
-                $path = $image->store("products/{$product->id}/colors/{$colorId}", 'public');
-
-                // Save the path in database
-                $productColor->images()->create([
-                    'image_path' => $path
+                // Get or create the productColor pivot
+                $productColor = $product->productColors()->firstOrCreate([
+                    'color_id' => $colorId
                 ]);
+
+                foreach ($images as $image) {
+                    // Store the file in the 'public' disk
+                    $path = $image->store("products/{$product->id}/colors/{$colorId}", 'public');
+
+                    // Save the path in database
+                    $productColor->images()->create([
+                        'image_path' => $path
+                    ]);
+                }
             }
         }
-    }
 
-    return redirect()->route('products.index')->with('message', 'Product updated successfully.');
-}
+        return redirect()->route('products.index')->with('message', 'Product updated successfully.');
+    }
 
 
 

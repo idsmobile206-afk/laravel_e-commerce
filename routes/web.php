@@ -24,6 +24,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 // =================== Resource controller ======================
 
 Route::resource( "products",ProductsController::class) ;
+Route::get('/products/{id}/images', [ProductsController::class, 'imagesView'])->name('products.images');
+Route::post('/products/{id}/images', [ProductsController::class, 'imagesStore'])->name('products.images.store');
+
 
 Route::resource('/store', storeController::class);
 
