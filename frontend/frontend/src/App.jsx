@@ -7,7 +7,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import { ProductDetails } from './components/Details'
 import { AuthPanel } from './components/Login'
-import { Cart } from './components/Cart'
+import Cart from './components/Cart/Cart'
+
 
 function App() {
   

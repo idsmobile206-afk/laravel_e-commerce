@@ -1,0 +1,15 @@
+.cart-item-box {
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #F1F4FA, #CBCDD3);
+  box-shadow: var(--secondary-box-shadow);
+  padding: 10px ;
+  height: 80px;
+  width: 100%;
+  margin: 0 auto 20px auto;
+
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
