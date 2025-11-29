@@ -6,7 +6,7 @@ import { StoreProducts } from './components/StoreProducts'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import { ProductDetails } from './components/Details'
-import { Login } from './components/Login'
+import { AuthPanel } from './components/Login'
 
 function App() {
   
@@ -19,7 +19,7 @@ function App() {
         <Route index element={<StoreProducts />} />
        
         <Route path="/products/:id" element={<ProductDetails />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<AuthPanel />} />
       </Route>
     </Routes>
    </BrowserRouter>
