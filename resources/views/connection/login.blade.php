@@ -4,31 +4,45 @@
       <h1>ACCESS</h1>
     </header>
     <section>
-      <form action="#" method="get">
-        <div class="form-group">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" required autocomplete="off" placeholder="name@example.com">
-        </div>
+     <form action="/login" method="POST">
+  @csrf
 
-        <div class="form-group">
-          <label for="pwd">Password</label>
-          <input type="password" id="pwd" required placeholder="••••••••">
-        </div>
+  <div class="form-group">
+    <label for="email">Email Address</label>
+    <input 
+      type="email" 
+      id="email" 
+      name="email" 
+      required 
+      autocomplete="off" 
+      placeholder="name@example.com">
+  </div>
 
-        <div class="btn-row">
-          <button type="submit" class="btn-login">Sign In</button>
-          <button type="button" class="btn-register" id="goRegister">Register</button>
-        </div>
+  <div class="form-group">
+    <label for="pwd">Password</label>
+    <input 
+      type="password" 
+      id="pwd" 
+      name="password" 
+      required 
+      placeholder="••••••••">
+  </div>
 
-        <div class="meta-row">
-          <label class="checkbox-label">
-            <input type="checkbox">
-            <div class="custom-check"></div>
-            Remember me
-          </label>
-          <a href="#" class="forgot">Recover Password</a>
-        </div>
-      </form>
+  <div class="btn-row">
+    <button type="submit" class="btn-login">Sign In</button>
+    <button type="button" class="btn-register" id="goRegister">Register</button>
+  </div>
+
+  <div class="meta-row">
+    <label class="checkbox-label">
+      <input type="checkbox" name="remember">
+      <div class="custom-check"></div>
+      Remember me
+    </label>
+    <a href="#" class="forgot">Recover Password</a>
+  </div>
+</form>
+
     </section>
     <footer>
       &copy; 2025 MOLLER.STUDIO. ALL RIGHTS RESERVED.

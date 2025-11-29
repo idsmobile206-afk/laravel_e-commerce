@@ -9,12 +9,12 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    
+
     public function showLogin()
     {
         return view('connection.login');
     }
-    
+
     public function showRegister()
     {
         return view('connection.register');
@@ -54,5 +54,15 @@ class AuthController extends Controller
         Auth::login($user);
 
         return redirect('/products');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login');
     }
 }

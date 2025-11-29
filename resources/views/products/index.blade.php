@@ -1,80 +1,81 @@
 @extends('welcome')
 
 @section('content')
-<div class="py-10 px-8">
+<div class="py-6 px-6">
 
-    {{-- HEADER + ADD BUTTON --}}
-    <div class="flex justify-between items-center mb-10">
-        <h1 class="text-4xl font-bold text-purple-600">
-            Products List
-        </h1>
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-semibold text-gray-800">Products</h1>
 
         <a href="{{ route('products.create') }}"
-           class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
-            + Add Product
+           class="px-3 py-1.5 text-sm border border-black text-black rounded hover:bg-black hover:text-white transition">
+            + Add
         </a>
     </div>
 
-    <div class="relative overflow-x-auto shadow rounded-lg">
-        <table class="w-full text-sm text-left text-gray-600">
-            <thead class="text-xs uppercase bg-gray-100 text-gray-700">
+    <div class="relative overflow-x-auto rounded-lg border border-gray-200 bg-white">
+        <table class="w-full text-sm text-left text-gray-700">
+
+            <thead class="bg-gray-100 text-gray-600 text-xs">
                 <tr>
-                    <th class="px-6 py-3">ID</th>
-                    <th class="px-6 py-3">Image</th>
-                    <th class="px-6 py-3">Name</th>
-                    <th class="px-6 py-3">Price</th>
-                    <th class="px-6 py-3">Stock</th>
-                    <th class="px-6 py-3">Brand</th>
-                    <th class="px-6 py-3">Category</th>
-                    <th class="px-6 py-3">Gender</th>
-                    <th class="px-6 py-3">Type</th>
-                    <th class="px-6 py-3">Sizes</th>
-                    <th class="px-6 py-3">Colors</th>
-                    <th class="px-6 py-3 text-center">Actions</th>
+                    <th class="px-4 py-2 font-medium">ID</th>
+                    <th class="px-4 py-2 font-medium">Product</th>
+                    <th class="px-4 py-2 font-medium">Price</th>
+                    <th class="px-4 py-2 font-medium">Stock</th>
+                    <th class="px-4 py-2 font-medium">Brand</th>
+                    <th class="px-4 py-2 font-medium">Category</th>
+                    <th class="px-4 py-2 font-medium">Gender</th>
+                    <th class="px-4 py-2 font-medium">Sizes</th>
+                    <th class="px-4 py-2 font-medium">Colors</th>
+                    <th class="px-4 py-2 text-center font-medium">Actions</th>
                 </tr>
             </thead>
 
-            <tbody>
+            <tbody class="bg-white">
                 @foreach ($products as $p)
-                <tr class="bg-white border-b hover:bg-gray-50">
+                <tr class="border-b hover:bg-gray-50">
 
                     {{-- ID --}}
-                    <td class="px-6 py-4 font-semibold text-gray-900">
-                        {{ $p->id }}
-                    </td>
+                    <td class="px-4 py-2 text-gray-800">{{ $p->id }}</td>
 
-                    {{-- FIRST COLOR → FIRST IMAGE --}}
+                    {{-- PRODUCT CELL --}}
                     @php
                         $firstColor = $p->productColors->first();
                         $firstImg = $firstColor?->images->first();
                     @endphp
 
-                    <td class="px-6 py-4">
-                        @if ($firstImg)
-                            <img src="{{ asset('storage/' . $firstImg->image_path) }}"
-                                 class="h-20 w-20 object-cover rounded border" />
-                        @else
-                            <span class="text-gray-400">No Image</span>
-                        @endif
+                    <td class="px-4 py-2">
+                        <div class="flex items-center gap-3">
+
+                            {{-- Product Image --}}
+                            @if ($firstImg)
+                                <img src="{{ asset('storage/' . $firstImg->image_path) }}"
+                                     class="h-12 w-12 object-cover rounded border">
+                            @else
+                                <div class="h-12 w-12 flex items-center justify-center text-gray-400 border rounded text-xs">—</div>
+                            @endif
+
+                            {{-- Name + Type --}}
+                            <div class="flex flex-col leading-tight">
+                                <span class="font-medium text-gray-900 text-sm">{{ $p->name }}</span>
+                                <span class="text-xs text-gray-500">{{ $p->type?->name ?? '—' }}</span>
+                            </div>
+
+                        </div>
                     </td>
 
                     {{-- BASIC DATA --}}
-                    <td class="px-6 py-4">{{ $p->name }}</td>
-                    <td class="px-6 py-4">{{ $p->price }} DH</td>
-                    <td class="px-6 py-4">{{ $p->stock }}</td>
+                    <td class="px-4 py-2">{{ $p->price }} DH</td>
+                    <td class="px-4 py-2">{{ $p->stock }}</td>
+                    <td class="px-4 py-2">{{ $p->brand?->name ?? '—' }}</td>
+                    <td class="px-4 py-2">{{ $p->category?->name ?? '—' }}</td>
+                    <td class="px-4 py-2">{{ $p->gender?->name ?? '—' }}</td>
 
-                    {{-- RELATIONS --}}
-                    <td class="px-6 py-4">{{ $p->brand?->name ?? '—' }}</td>
-                    <td class="px-6 py-4">{{ $p->category?->name ?? '—' }}</td>
-                    <td class="px-6 py-4">{{ $p->gender?->name ?? '—' }}</td>
-                    <td class="px-6 py-4">{{ $p->type?->name ?? '—' }}</td>
-
-                    {{-- SIZES --}}
-                    <td class="px-6 py-4">
+                    {{-- SIZES — STACKED LIST --}}
+                    <td class="px-4 py-2 text-xs">
                         @if ($p->sizes->count())
-                            <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-col gap-1">
                                 @foreach ($p->sizes as $s)
-                                    <span class="px-2 py-1 border rounded bg-gray-50">
+                                    <span class="px-1 py-0.5 border rounded bg-white text-gray-700 text-xs inline-block w-fit">
                                         {{ $s->name }}
                                     </span>
                                 @endforeach
@@ -84,42 +85,38 @@
                         @endif
                     </td>
 
-                    {{-- COLORS --}}
-                    <td class="px-6 py-4">
-                        <div class="flex gap-2">
+                    {{-- COLORS — TINY DOTS --}}
+                    <td class="px-4 py-2">
+                        <div class="flex gap-1.5">
                             @foreach ($p->productColors as $pc)
-                                <div class="h-6 w-6 rounded border"
-                                     style="background-color: {{ $pc->color->hex_code }}">
-                                </div>
+                                <div class="h-3 w-3 rounded-full border"
+                                     style="background-color: {{ $pc->color->hex_code }}"></div>
                             @endforeach
                         </div>
                     </td>
 
-                    {{-- ACTION BUTTONS --}}
-                    <td class="px-6 py-4 text-center">
-                        <div class="flex justify-center gap-2">
+                    {{-- ACTIONS --}}
+                    <td class="px-4 py-2 text-center">
+                        <div class="flex justify-center gap-1">
 
-                            {{-- DETAILS --}}
                             <a href="{{ route('products.show', $p->id) }}"
-                               class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
-                                Details
+                               class="px-2 py-1 text-xs border border-black text-black rounded hover:bg-black hover:text-white transition">
+                                View
                             </a>
 
-                            {{-- EDIT --}}
                             <a href="{{ route('products.edit', $p->id) }}"
-                               class="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600">
+                               class="px-2 py-1 text-xs border border-gray-800 text-gray-800 rounded hover:bg-gray-800 hover:text-white transition">
                                 Edit
                             </a>
 
-                            {{-- DELETE --}}
                             <form action="{{ route('products.destroy', $p->id) }}"
                                   method="POST"
-                                  onsubmit="return confirm('Are you sure you want to delete this product?')">
+                                  onsubmit="return confirm('Delete this product?')">
                                 @csrf
                                 @method('DELETE')
                                 <button
-                                    class="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700">
-                                    Delete
+                                    class="px-2 py-1 text-xs border border-red-700 text-red-700 rounded hover:bg-red-700 hover:text-white transition">
+                                    Del
                                 </button>
                             </form>
 

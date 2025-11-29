@@ -1,16 +1,16 @@
 <?php
 
-
+use App\Http\Controllers\ApiAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\StoreAPIController;
 use App\Http\Controllers\storeController;
-
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ColorsController;
+// use Illuminate\Support\Facades\Route;
 
 //================= LOGIN ROUTES =================================
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ColorsController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
@@ -23,49 +23,54 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // =================== Resource controller ======================
 
-Route::resource( "products",ProductsController::class) ;
-Route::get('/products/{id}/images', [ProductsController::class, 'imagesView'])->name('products.images');
-Route::post('/products/{id}/images', [ProductsController::class, 'imagesStore'])->name('products.images.store');
+
+
+// All routes inside this group require authentication
+Route::middleware(['auth'])->group(function () {
+
+    // Resource routes for products
+    Route::resource('products', ProductsController::class);
+
+    // Product images routes
+    Route::get('/products/{id}/images', [ProductsController::class, 'imagesView'])
+        ->name('products.images');
+
+    Route::post('/products/{id}/images', [ProductsController::class, 'imagesStore'])
+        ->name('products.images.store');
+
+    Route::get('/colors' ,[ ColorsController::class , 'index']) ;
+
+});
 
 
 Route::resource('/store', storeController::class);
 
-Route::get('/colors' ,[ ColorsController::class , 'index']) ;
 
-// Route::prefix('admin')->group(function () {
-//     Route::get('/users', [AdminController::class, 'index']);
-//     Route::get('/settings', [AdminController::class, 'settings']);
-// });
 
-// Route::prefix('admin')->group(function () {
-//     Route::get('/dashboard', function () {
-//         return 'Admin Dashboard';
-//     })->name('admin.dashboard');
 
-//     Route::get('/users', function () {
-//         return 'Manage Users';
-//     })->name('admin.users');
-// });
-
-// Route::get('/profile', function () {
-//     return 'User Profile';
-// })->middleware('auth');
-
-// Route::middleware(['auth', 'isAdmin'])->group(function () {
-//     Route::get('/dashboard', function () {
-//         return 'Admin Dashboard';
-//     });
-
-//     Route::get('/users', function () {
-//         return 'Manage Users';
-//     });
-// });
 // ====================== Fallback Routes ==========================
 
 Route::fallback(function () {
     return view('errors.404') ;
 });
 
+// routes/api.php
 Route::prefix('api')->group(function () {
-    Route::get('data', [StoreAPIController::class, 'index']);
-}) ;
+    
+    // Route::post('/register', [ApiAuthController::class, 'register']);
+    // Route::post('/login',    [ApiAuthController::class, 'login']);
+
+    // Route::middleware('auth:sanctum')->group(function () {
+    //     Route::post('/logout', [ApiAuthController::class, 'logout']);
+    // });
+
+    Route::post('/register', [APIAuthController::class, 'register']);
+Route::post('/login', [APIAuthController::class, 'login']);
+
+Route::resource('/data', StoreAPIController::class);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [APIAuthController::class, 'logout']);
+});
+});
+
+
