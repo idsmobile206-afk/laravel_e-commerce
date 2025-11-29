@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import { ProductDetails } from './components/Details'
 import { AuthPanel } from './components/Login'
+import { Cart } from './components/Cart'
 
 function App() {
   
@@ -20,6 +21,7 @@ function App() {
        
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/login" element={<AuthPanel />} />
+        <Route path="/cart" element={<Cart />} />
       </Route>
     </Routes>
    </BrowserRouter>

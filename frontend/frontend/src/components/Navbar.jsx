@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { AuthPanel } from "./Login";
 import {
   ShoppingCartIcon,
@@ -37,13 +37,14 @@ export default function Navbar() {
         </div>
 
         <div className="navbar-end flex items-center gap-6">
-          <button>
+          <Link to='/cart'>
             <ShoppingCartIcon className="h-7 w-7 text-[#ff6a00]" />
-          </button>
+          </Link>
 
           {!isLogged && (
             <button onClick={() => setShowAuthPanel(true)}>
-              <UserIcon className="h-7 w-7 text-[#ff6a00]" />
+              
+               <UserIcon className="h-7 w-7 text-[#ff6a00]" />
             </button>
           )}
 

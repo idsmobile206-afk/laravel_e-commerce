@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CartApiController;
 use App\Http\Controllers\ApiAuthController;
 use App\Http\Controllers\StoreAPIController;
 use Illuminate\Http\Request;
@@ -16,4 +17,10 @@ Route::post('/login', [APIAuthController::class, 'login']);
 Route::resource('/data', StoreAPIController::class);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [APIAuthController::class, 'logout']);
+});
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/cart', [CartApiController::class, 'index']);
+    Route::post('/cart', [CartApiController::class, 'store']);
 });
