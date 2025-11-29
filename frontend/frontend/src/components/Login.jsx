@@ -1,10 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-export const Login = ({ setUser }) => {
+export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  const navigate = useNavigate(); // ← teleportation device
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,10 +22,11 @@ export const Login = ({ setUser }) => {
       localStorage.setItem("user", JSON.stringify(response.data.user));
       localStorage.setItem("token", response.data.token);
 
-      setUser(response.data.user);
-      alert("Login successful!");
+      navigate("/"); // ← warp back to home
+
     } catch (err) {
-      setError(err.response?.data?.message || "Something went wrong");
+      console.error(err.response);
+      setError(err.response?.data?.message);
     }
   };
 
@@ -30,6 +34,7 @@ export const Login = ({ setUser }) => {
     <div className="max-w-md mx-auto mt-20 p-6 border rounded shadow">
       <h1 className="text-2xl font-bold mb-4">Login</h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
+
       <form onSubmit={handleSubmit}>
         <input
           type="email"
@@ -38,6 +43,7 @@ export const Login = ({ setUser }) => {
           onChange={(e) => setEmail(e.target.value)}
           className="w-full mb-3 p-2 border rounded"
         />
+
         <input
           type="password"
           placeholder="Password"
@@ -45,6 +51,7 @@ export const Login = ({ setUser }) => {
           onChange={(e) => setPassword(e.target.value)}
           className="w-full mb-3 p-2 border rounded"
         />
+
         <button
           type="submit"
           className="w-full p-2 bg-blue-600 text-white rounded hover:bg-blue-700"
@@ -54,4 +61,4 @@ export const Login = ({ setUser }) => {
       </form>
     </div>
   );
-}
+};

@@ -64,13 +64,7 @@ Route::prefix('api')->group(function () {
     //     Route::post('/logout', [ApiAuthController::class, 'logout']);
     // });
 
-    Route::post('/register', [APIAuthController::class, 'register']);
-Route::post('/login', [APIAuthController::class, 'login']);
-
-Route::resource('/data', StoreAPIController::class);
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [APIAuthController::class, 'logout']);
-});
+    
 });
 
 

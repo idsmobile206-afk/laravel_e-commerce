@@ -22,6 +22,32 @@
         <nav class="flex-1 px-2 py-4 space-y-1 overflow-y-auto">
             <a href="/products" class="block rounded-md px-3 py-2 text-sm font-medium text-gray-700 bg-gray-100">
                 Products
+                <ul class="list-disc">
+                    <li>
+                        <a href="/colors"
+                            class="block rounded-md px-3 py-2 text-sm font-medium text-gray-600 list-disc">
+                            brands
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/colors"
+                            class="block rounded-md px-3 py-2 text-sm font-medium text-gray-600 list-disc">
+                            categories
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/colors"
+                            class="block rounded-md px-3 py-2 text-sm font-medium text-gray-600 list-disc">
+                            product types
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/colors"
+                            class="block rounded-md px-3 py-2 text-sm font-medium text-gray-600 list-disc">
+                            sizes
+                        </a>
+                    </li>
+                </ul>
             </a>
 
             <a href="/colors"
